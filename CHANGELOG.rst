@@ -2,30 +2,7 @@
 Changelog for package ros_mscl
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.1.1 (2020-12-08)
-------------------
-* Added support for raw binary file output (used for support issues)
-* Added support for RTK status message received on data class GNSS3 (GQ7 only)
-* Added factory streaming setup for devices that support this command (GQ7 currently)
-
-1.1.0 (2020-09-14)
-------------------
-* Added preliminary support for GQ7
-* Changed "GPS" topic to "GNSS1" and added "GNSS2" topic in support of GQ7
-* Refactored driver code for more explicit variable names
-* Changed initialization procedure to setup device first, then topics, then services
-* Modified example launch file with more specific parameter names
-
-
-1.0.0 (2020-02-13)
-------------------
-* Added mscl support
-* Removed MIPSDK and utility functions in mip_sdk_user_functions
-* Changed name of node and package to ros_mscl
-* Added device feature detection to improve compatibility with a greater range of devices
-* Added Parker Hannifin Corp to maintainers
-
-1.0.1 (2021-02-09)
+1.1.2 (2021-02-09)
 ------------------
 * Move the libmscl dependency to a normal depend, as it's required for both building & running
 * Remove the examples folder, move the ros_mscl contents into the root of the repo. Update the package data to remove the broken dependency (until we can get it fixed). Update authors & maintainer for this fork.
@@ -99,7 +76,6 @@ Changelog for package ros_mscl
 * Update microstrain_3dm.cpp
 * Publishes nav_status
 * device_setup parameter for pre-configured nodes
-* Change heading_source default value
 * Removed structured bindings
   No longer requires support for c++17
 * Switched to device and received timestamps
@@ -131,6 +107,29 @@ Changelog for package ros_mscl
 * Changing license text
 * Changing license text
 * Contributors: Bingham, Brian S, Brian Bingham, Chris Iverach-Brereton, Hunter L. Allen, Nathan Miller, mgill, mglord, rdslord
+
+1.1.1 (2020-12-08)
+------------------
+* Added support for raw binary file output (used for support issues)
+* Added support for RTK status message received on data class GNSS3 (GQ7 only)
+* Added factory streaming setup for devices that support this command (GQ7 currently)
+
+1.1.0 (2020-09-14)
+------------------
+* Added preliminary support for GQ7
+* Changed "GPS" topic to "GNSS1" and added "GNSS2" topic in support of GQ7
+* Refactored driver code for more explicit variable names
+* Changed initialization procedure to setup device first, then topics, then services
+* Modified example launch file with more specific parameter names
+
+
+1.0.0 (2020-02-13)
+------------------
+* Added mscl support
+* Removed MIPSDK and utility functions in mip_sdk_user_functions
+* Changed name of node and package to ros_mscl
+* Added device feature detection to improve compatibility with a greater range of devices
+* Added Parker Hannifin Corp to maintainers
 
 0.0.3 (2019-08-05)
 ------------------
