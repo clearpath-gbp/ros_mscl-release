@@ -2,6 +2,12 @@
 Changelog for package ros_mscl
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.1.4 (2021-02-17)
+------------------
+* Add postinst and postrm scripts to symlink libmscl.so when this package is built as a .deb
+* Add troubleshooting instructions to the README
+* Contributors: Chris Iverach-Brereton
+
 1.1.3 (2021-02-10)
 ------------------
 * Fix missing dependencies that are breaking the buildfarm
