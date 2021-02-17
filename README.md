@@ -56,6 +56,25 @@ This will launch two nodes that publish data to different namespaces:
 An example subscriber node can be found here: [ROS-MSCL Examples](https://github.com/LORD-MicroStrain/ROS-MSCL/tree/master/Examples)
 
 
+## Troubleshooting
+If you encounter of the form
+
+    /opt/ros/melodic/lib/ros_mscl/ros_mscl_node: error while loading shared libraries: libmscl.so: cannot open shared object file: No such file or directory
+
+check that the directory you installed mscl.so to is part of your LD_LIBRARY_PATH.  By default this
+is ``/usr/share/c++-mscl``.
+
+Running
+
+    export LD_LIBRARY_PATH=/usr/share/c++-mscl:$LD_LIBRARY_PATH
+
+may be necessary before launching the ros_mscl node.
+
+Alternatively, you can symlink libmscl.so into Linux's standard paths by running
+
+    sudo ln -s /usr/share/c++-mscl/libmscl.so /usr/lib/libmscl.so
+
+
 ## License
 ROS-MSCL is released under the MIT License - see the `LICENSE` file in the source distribution.
 
