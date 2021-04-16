@@ -45,11 +45,12 @@
 
 //MSCL
 #include "mscl/mscl.h"
-#include "ros_mscl/status_msg.h"
-#include "ros_mscl/rtk_status_msg.h"
-#include "ros_mscl/filter_status_msg.h"
-#include "ros_mscl/filter_heading_msg.h"
-#include "ros_mscl/filter_heading_state_msg.h"
+#include "mscl_msgs/Status.h"
+#include "mscl_msgs/RTKStatus.h"
+#include "mscl_msgs/FilterStatus.h"
+#include "mscl_msgs/FilterHeading.h"
+#include "mscl_msgs/FilterHeadingState.h"
+#include "mscl_msgs/GPSCorrelationTimestampStamped.h"
 #include "ros_mscl/SetAccelBias.h"
 #include "ros_mscl/GetAccelBias.h"
 #include "ros_mscl/SetGyroBias.h"
@@ -99,6 +100,9 @@
 #include "ros_mscl/SetHeadingSource.h"
 #include "ros_mscl/GetHeadingSource.h"
 #include "ros_mscl/GetSensor2VehicleTransformation.h"
+#include "ros_mscl/ExternalHeadingUpdate.h"
+#include "ros_mscl/SetRelativePositionReference.h"
+#include "ros_mscl/GetRelativePositionReference.h"
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,6 +117,8 @@
 
 #define SECS_PER_WEEK (60L*60*24*7)
 #define UTC_GPS_EPOCH_DUR (315964800)
+
+#define USTRAIN_G 9.80665  // from section 5.1.1 in https://www.microstrain.com/sites/default/files/3dm-gx5-25_dcp_manual_8500-0065_reference_document.pdf
 
 //Macro to cause Sleep call to behave as it does for windows
 #define Sleep(x) usleep(x*1000.0)
@@ -233,7 +239,12 @@ namespace Microstrain
 
     bool set_mag_dip_adaptive_vals(ros_mscl::SetMagDipAdaptiveVals::Request &req, ros_mscl::SetMagDipAdaptiveVals::Response &res);
     bool get_mag_dip_adaptive_vals(ros_mscl::GetMagDipAdaptiveVals::Request &req, ros_mscl::GetMagDipAdaptiveVals::Response &res);
-     
+    
+    bool external_heading_update(ros_mscl::ExternalHeadingUpdate::Request &req, ros_mscl::ExternalHeadingUpdate::Response &res);
+
+    bool set_relative_position_reference(ros_mscl::SetRelativePositionReference::Request &req, ros_mscl::SetRelativePositionReference::Response &res);
+    bool get_relative_position_reference(ros_mscl::GetRelativePositionReference::Request &req, ros_mscl::GetRelativePositionReference::Response &res);
+
     bool device_settings(ros_mscl::DeviceSettings::Request &req, ros_mscl::DeviceSettings::Response &res);
 
     void velocity_zupt_callback(const std_msgs::Bool& state);
@@ -244,7 +255,6 @@ namespace Microstrain
 
     void external_gps_time_callback(const sensor_msgs::TimeReference& time);
 
-
   private:
 
 
@@ -253,6 +263,13 @@ namespace Microstrain
 
   //Variables/fields
   std::unique_ptr<mscl::InertialNode> m_inertial_device;
+
+  //Info for converting to the ENU frame
+  bool m_use_enu_frame;
+  tf2::Matrix3x3 m_t_ned2enu;
+
+  //Flag for using device timestamp instead of PC received time
+  bool m_use_device_timestamp;
 
   //Packet Counters (valid, timeout, and checksum errors)
   uint32_t m_imu_valid_packet_count;
@@ -313,6 +330,7 @@ namespace Microstrain
   //IMU Publishers
   ros::Publisher m_imu_pub;
   ros::Publisher m_mag_pub;
+  ros::Publisher m_gps_corr_pub;
 
   //GNSS Publishers
   ros::Publisher m_gnss_pub[NUM_GNSS];
@@ -328,6 +346,7 @@ namespace Microstrain
   ros::Publisher m_filter_heading_state_pub;
   ros::Publisher m_filter_pub;
   ros::Publisher m_filtered_imu_pub;
+  ros::Publisher m_filter_relative_pos_pub;
 
   //Device Status Publisher
   ros::Publisher m_device_status_pub;
@@ -342,6 +361,7 @@ namespace Microstrain
   //IMU Messages
   sensor_msgs::Imu           m_imu_msg;
   sensor_msgs::MagneticField m_mag_msg;
+  mscl_msgs::GPSCorrelationTimestampStamped m_gps_corr_msg;
 
   //GNSS Messages
   sensor_msgs::NavSatFix     m_gnss_msg[NUM_GNSS];
@@ -349,17 +369,18 @@ namespace Microstrain
   sensor_msgs::TimeReference m_gnss_time_msg[NUM_GNSS];
 
   //RTK Messages
-  ros_mscl::rtk_status_msg   m_rtk_msg;
+  mscl_msgs::RTKStatus   m_rtk_msg;
  
   //Filter Messages
   nav_msgs::Odometry                 m_filter_msg;
   sensor_msgs::Imu                   m_filtered_imu_msg;
-  ros_mscl::filter_heading_msg       m_filter_heading_msg;
-  ros_mscl::filter_heading_state_msg m_filter_heading_state_msg;
-  ros_mscl::filter_status_msg        m_filter_status_msg;
+  nav_msgs::Odometry                 m_filter_relative_pos_msg;
+  mscl_msgs::FilterStatus            m_filter_status_msg;
+  mscl_msgs::FilterHeadingState      m_filter_heading_state_msg;
+  mscl_msgs::FilterHeading           m_filter_heading_msg;
 
   //Device Status Message
-  ros_mscl::status_msg m_device_status_msg;
+  mscl_msgs::Status m_device_status_msg;
  
   //Frame ids
   std::string m_imu_frame_id;
@@ -374,8 +395,10 @@ namespace Microstrain
   
   //Publish data flags
   bool m_publish_imu;
+  bool m_publish_gps_corr;
   bool m_publish_gnss[NUM_GNSS];
   bool m_publish_filter;
+  bool m_publish_filter_relative_pos;
   bool m_publish_rtk;
 
   //ZUPT, angular ZUPT topic listener variables
