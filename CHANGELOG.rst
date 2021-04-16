@@ -1,22 +1,48 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Changelog for package ros_mscl
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-1.1.4 (2021-02-17)
+1.2.3 (2021-04-16)
 ------------------
-* Add postinst and postrm scripts to symlink libmscl.so when this package is built as a .deb
-* Add troubleshooting instructions to the README
-* Contributors: Chris Iverach-Brereton
-
-1.1.3 (2021-02-10)
-------------------
-* Fix missing dependencies that are breaking the buildfarm
-* Contributors: Chris Iverach-Brereton
-
-1.1.2 (2021-02-09)
-------------------
-* Move the libmscl dependency to a normal depend, as it's required for both building & running
-* Remove the examples folder, move the ros_mscl contents into the root of the repo. Update the package data to remove the broken dependency (until we can get it fixed). Update authors & maintainer for this fork.
+* Merge the recent upstream changes so we're compatible with MSCL 61.1.6.
+* Keep the old version numbers, re-add our postinst and postrm scripts, but otherwise keep the structure of the repo the same as upstream; this should make it easier to update our repo down the road.
+* Added frame ids back in to not break existing configurations
+* Added a flag to set ENU as the local reference frame
+  Moved sensor2vehicle frame transformation setting code to occur if filter data is not enabled
+  See changelog for more info
+* Added user notifications in the case a command isn't supported by a device.
+  Added support for the speedometer lever arm offset command
+* Corrected description in launch file to point out the quaternion version of the sensor2vehicle frame transformation is not currently supported on the GQ7
+* Added ROS_INFO/ROS_ERROR reporting for setting sensor2vehicle frame transformation... had a silent error for the quaternion version on the GQ7.
+* Added the filter GPS timestamp packet to the configured messages.
+* - Driver modified to support MSCL version 61.1.6
+  - Fixed missing boolean set for RTK status message publishing
+* Timestamp change:
+  1. Launch file setting "use_device_timestamp" (bool) created to allow user to select between device generated timestamp and packet received time (generated using PC time upon packet reception.)
+  - Some applications require the PC received time to sync with other packages
+  - Some applications require the device generated timestamp for accurate time of when the data was generated
+  Hopefully, this satisfies both needs.
+* Merge pull request `#36 <https://github.com/clearpathrobotics/ros_mscl/issues/36>`_ from arpg/master
+  Fixed issue including mscl_msgs
+* Fixed issue including mscl_msgs
+* Merge pull request `#34 <https://github.com/clearpathrobotics/ros_mscl/issues/34>`_ from CaptKrasno/msg
+  Moved Messages to Separate Package and renamed them to match ros convention
+* Merge branch 'master' into msg
+* Warning: Contains breaking change to /nav/odom message!
+  Code cleanup, new features, bug fixes
+  See changelog for complete list of changes
+* Separated Messages into a second package and changed naming to match ros convention
+* Merge remote-tracking branch 'upstream/master'
+* Merge pull request `#30 <https://github.com/clearpathrobotics/ros_mscl/issues/30>`_ from CaptKrasno/gps_corr
+  Added support for gps_correlation_timestamp packet
+* changed default value for  m_publish_gps_corr to false
+* Merge branch 'master' into gps_corr
+* Merge pull request `#31 <https://github.com/clearpathrobotics/ros_mscl/issues/31>`_ from CaptKrasno/gravity
+  redefined g according to the spec
+* redefined g according to the spec
+* Added support for gps_correlation_timestamp packet
+* Modified filter, GNSS, and RTK timestamp handling to disregard valid flags (to match IMU handling)
+* Added IMU GPS timestamp as a default data setup quantity.
+  Removed IMU timestamp validity check so time still streams prior to GPS lock.
 * Fixed bug preventing device report service from working on a GQ7.
 * Added support for raw binary file output and RTK status message (see changelog for details)
 * Added PPS Source, GPIO Config, and external GPS time updating
@@ -87,11 +113,10 @@ Changelog for package ros_mscl
 * Update microstrain_3dm.cpp
 * Publishes nav_status
 * device_setup parameter for pre-configured nodes
+* Change heading_source default value
 * Removed structured bindings
   No longer requires support for c++17
 * Switched to device and received timestamps
-* Updated to include python example information.
-* Added python listener example
 * Added heading_source parameter
 * Added heading_source parameter
 * Added /filtered/imu/data
@@ -99,25 +124,27 @@ Changelog for package ros_mscl
 * Added realpath to Connection
 * Update Status Messages
   Updated status reporting to list only supported diagnostic features. This requires mscl version 55.0.1 or later.
-* Update README.md - add link to Examples
-* Merge branch 'master' of https://github.com/LORD-MicroStrain/microstrain_mips
 * * move driver package content to ros_mscl folder
   * add name argument to microstrain.launch file to specify the namespace (default: gx5)
   * update README.md
   * add basic subscriber example (C++)
-* Fix MSCL link
-* 1.0.0
-  * Added mscl support
-  * Removed MIPSDK and utility functions in mip_sdk_user_functions
-  * Changed name of node and package to ros_mscl
-  * Added device feature detection to improve compatibility with a greater range of devices
-  * Added Parker Hannifin Corp to maintainers
-* Merge pull request `#30 <https://github.com/clearpathrobotics/ros_mscl/issues/30>`_ from ros-drivers/relicense
-  Relicense
-* package name
-* Changing license text
-* Changing license text
-* Contributors: Bingham, Brian S, Brian Bingham, Chris Iverach-Brereton, Hunter L. Allen, Nathan Miller, mgill, mglord, rdslord
+* Contributors: Chris Iverach-Brereton, Hunter L. Allen, Kristopher Krasnosky, Nathan Miller, harelb, mgill, nathanmillerparker, rdslord
+
+
+1.1.3 (2021-04-05)
+------------------
+* Added a flag to report values with-respect-to the ENU frame instead of the device-native NED frame.  This affects all reported position, velocity, and attitude values.
+* Removed user-settable frame ids so that the code can correctly determine if they should include "NED" or "ENU" frame designators
+* Moved sensor2vehicle transformation code outside of publish_filter check as it applies to IMU data even if not publishing filter data
+
+
+1.1.2 (2021-02-24)
+------------------
+* BREAKING CHANGE: Switched order of latitude and longitude in /nav/odom message to be correct (now Latitude, Longitude, Height)
+* Added support for external heading messages
+* Added support for relative position ouput on /device_name/nav/relative_pos/odom (GQ7 only)
+* Removed service clients as feedback has been that they are not used and clutter driver code
+* Fixed crash issue identified in https://github.com/LORD-MicroStrain/ROS-MSCL/issues/35
 
 1.1.1 (2020-12-08)
 ------------------
