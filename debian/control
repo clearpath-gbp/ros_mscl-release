@@ -1,0 +1,12 @@
+Source: ros-melodic-ros-mscl
+Section: misc
+Priority: optional
+Maintainer: Parker Hannifin Corp <sensing_support@lord.com>
+Build-Depends: debhelper (>= 9.0.0), c++-mscl, ros-melodic-catkin, ros-melodic-cmake-modules, ros-melodic-diagnostic-updater, ros-melodic-geometry-msgs, ros-melodic-message-generation, ros-melodic-mscl-msgs, ros-melodic-nav-msgs, ros-melodic-roscpp, ros-melodic-roslint, ros-melodic-sensor-msgs, ros-melodic-std-msgs, ros-melodic-std-srvs, ros-melodic-tf2, ros-melodic-tf2-ros
+Homepage: https://github.com/LORD-MicroStrain/ROS-MSCL
+Standards-Version: 3.9.2
+
+Package: ros-melodic-ros-mscl
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-cmake-modules, ros-melodic-diagnostic-aggregator, ros-melodic-diagnostic-updater, ros-melodic-geometry-msgs, ros-melodic-message-runtime, ros-melodic-mscl-msgs, ros-melodic-nav-msgs, ros-melodic-roscpp, ros-melodic-sensor-msgs, ros-melodic-std-msgs, ros-melodic-std-srvs, ros-melodic-tf2, ros-melodic-tf2-ros
+Description: The ros_mscl package provides a driver for the LORD/Microstrain inertial products.
