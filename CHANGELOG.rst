@@ -2,6 +2,20 @@
 Changelog for package ros_mscl
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.2.4 (2021-04-19)
+------------------
+
+1.2.3 (2021-04-16)
+------------------
+* Merge the recent upstream changes so we're compatible with MSCL 61.1.6.
+* Keep the old version numbers, re-add our postinst and postrm scripts, but otherwise keep the structure of the repo the same as upstream; this should make it easier to update our repo down the road.
+* Driver modified to support MSCL version 61.1.6
+* Fixed missing boolean set for RTK status message publishing
+* Merge pull request `#34 <https://github.com/clearpathrobotics/ros_mscl/issues/34>`_ from CaptKrasno/msg
+* Separated Messages into a second package and changed naming to match ros convention
+* Contributors: Chris Iverach-Brereton, Kristopher Krasnosky, Nathan Miller, nathanmillerparker
+
+
 1.1.3 (2021-04-05)
 ------------------
 * Added a flag to report values with-respect-to the ENU frame instead of the device-native NED frame.  This affects all reported position, velocity, and attitude values.
@@ -39,6 +53,7 @@ Changelog for package ros_mscl
 * Changed name of node and package to ros_mscl
 * Added device feature detection to improve compatibility with a greater range of devices
 * Added Parker Hannifin Corp to maintainers
+
 
 0.0.3 (2019-08-05)
 ------------------
