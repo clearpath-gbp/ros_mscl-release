@@ -2,6 +2,9 @@
 Changelog for package ros_mscl
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.2.4 (2021-04-19)
+------------------
+
 1.2.3 (2021-04-16)
 ------------------
 * Merge the recent upstream changes so we're compatible with MSCL 61.1.6.
