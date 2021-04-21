@@ -1,6 +1,16 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Changelog for package ros_mscl
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.2.5 (2021-04-21)
+------------------
+* Merge branch 'master' of github.com:LORD-MicroStrain/ROS-MSCL into upstream-sync
+* Merge pull request `#49 <https://github.com/clearpathrobotics/ros_mscl/issues/49>`_ from civerachb-cpr/rosdep-fix
+  Add tf2_geometry_msgs as a dependency
+* Add tf2_geometry_msgs as a dependency
+* Merge pull request `#48 <https://github.com/clearpathrobotics/ros_mscl/issues/48>`_ from civerachb-cpr/master
+  Make frame IDs configurable
+* Contributors: Chris Iverach-Brereton, nathanmillerparker
+
 1.2.4 (2021-04-19)
 ------------------
 * Add an argument to specify the frame_id, instead of always using "sensor"
