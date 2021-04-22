@@ -1,6 +1,11 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Changelog for package ros_mscl
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.2.6 (2021-04-22)
+------------------
+* Expose the use_enu_frame parameter as an arg
+* Contributors: Chris Iverach-Brereton
+
 1.2.5 (2021-04-21)
 ------------------
 * Merge branch 'master' of github.com:LORD-MicroStrain/ROS-MSCL into upstream-sync
