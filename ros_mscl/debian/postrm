@@ -1,0 +1,12 @@
+#!/bin/bash
+# remove the symlink we created in postinst
+
+LIBMSCL_LINK=/usr/lib/libmscl.so
+
+if [[ -f $LIBMSCL_LINK && -L $LIBMSCL_LINK ]];
+then
+  echo "Removing symbolic link to libmscl.so"
+  rm $LIBMSCL_LINK
+else
+  echo "$LIBMSCL_LINK is not a symbolic link; it will not be removed"
+fi
