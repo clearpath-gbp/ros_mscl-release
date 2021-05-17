@@ -6,7 +6,7 @@
 
 LIBMSCL_LINK=/usr/lib/libmscl.so
 
-if [[ ! -f $LIBMSCL_LINK ]];
+if [ ! -f $LIBMSCL_LINK ];
 then
   echo "Creating symbolic link to libmscl.so"
   ln -s /usr/share/c++-mscl/libmscl.so /usr/lib/libmscl.so
