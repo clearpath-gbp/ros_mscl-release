@@ -1,3 +1,28 @@
+## ros_mscl (noetic) - 1.2.9-1
+
+The packages in the `ros_mscl` repository were released into the `noetic` distro by running `/usr/bin/bloom-release --rosdistro noetic --track noetic ros_mscl` on `Wed, 17 Nov 2021 18:20:37 -0000`
+
+These packages were released:
+- `mscl_msgs`
+- `ros_mscl`
+
+Version of package(s) in repository `ros_mscl`:
+
+- upstream repository: https://github.com/clearpathrobotics/ros_mscl.git
+- release repository: https://github.com/clearpath-gbp/ros_mscl-release.git
+- rosdistro version: `1.2.7-3`
+- old version: `1.2.7-3`
+- new version: `1.2.9-1`
+
+Versions of tools used:
+
+- bloom version: `0.10.7`
+- catkin_pkg version: `0.4.24`
+- rosdep version: `0.21.0`
+- rosdistro version: `0.8.3`
+- vcstools version: `0.1.42`
+
+
 ## ros_mscl (melodic) - 1.2.9-1
 
 The packages in the `ros_mscl` repository were released into the `melodic` distro by running `/usr/bin/bloom-release --rosdistro melodic --track melodic ros_mscl` on `Tue, 17 Aug 2021 21:11:26 -0000`
